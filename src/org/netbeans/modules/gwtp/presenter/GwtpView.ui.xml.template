@@ -1,0 +1,12 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+  <#if PresenterType == "Popup">
+    <g:PopupPanel autoHideOnHistoryEventsEnabled="false" autoHideEnabled="false">
+    </g:PopupPanel>
+  <#else>
+    <g:HTMLPanel ui:field="main">
+    </g:HTMLPanel>
+  </#if>
+</ui:UiBinder>

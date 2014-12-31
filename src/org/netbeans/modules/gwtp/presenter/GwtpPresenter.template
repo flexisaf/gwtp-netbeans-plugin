@@ -1,0 +1,110 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.Presenter;
+import com.gwtplatform.mvp.client.View;
+import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.proxy.Proxy;
+import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
+import com.gwtplatform.mvp.client.HasUiHandlers;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.gwtplatform.mvp.client.annotations.NameToken;
+import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+
+/**
+ *
+ * @author ${user}
+ */
+<#if PresenterType == "Nested">
+public class ${name} extends Presenter<${name}.MyView, ${name}.MyProxy> <#if IsAddUiHandlers >implements ${targetName}UiHandlers</#if> {
+<#else>
+public class ${name} extends PresenterWidget<${name}.MyView> <#if IsAddUiHandlers >implements ${targetName}UiHandlers</#if> {
+</#if>
+
+<#if PresenterType != "Popup">
+    interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+    }
+<#else>
+   <#if IsOverrideDefPopPanel >
+     interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+        void center();
+
+        void hide();
+
+        void showRelativeTo(Widget target);
+     }
+   <#else>
+     interface MyView extends PopupView <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+     }
+   </#if>
+</#if>
+
+<#if PresenterType == "Nested">
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> SLOT_${targetName} = new Type<RevealContentHandler<?>>();
+
+  <#if IsaPlace >
+    @NameToken(NameTokens.${NameToken})
+  </#if>
+  <#if IsCodeSplit >
+    @ProxyCodeSplit
+  </#if>
+    @ProxyStandard
+    interface MyProxy extends Proxy<${name}> {
+    }
+
+    @Inject
+    ${name}(EventBus eventBus, MyView view, MyProxy proxy) {
+        super(eventBus, view, proxy, <#if RevealType == "Root">RevealType.Root<#elseif RevealType == "RootLayout">RevealType.RootLayout<#else>${SlotName}</#if>);
+    }
+<#else>
+    @Inject
+    ${name}(EventBus eventBus, MyView view) {
+        super(eventBus, view);
+    }
+</#if>
+        
+  <#if IsAddOnBind >
+    @Override
+    protected void onBind() {
+        super.onBind();
+    }
+  </#if>
+
+  <#if IsAddOnHide >
+    @Override         
+    protected void onHide() {
+        super.onHide();
+    }
+  </#if>
+
+  <#if IsAddOnUnbind >
+    @Override    
+    protected void onUnbind() {
+        super.onUnbind();
+    }
+  </#if>
+
+  <#if IsAddOnReset >
+    @Override
+    protected void onReset() {
+        super.onReset();
+    }
+  </#if>
+
+}

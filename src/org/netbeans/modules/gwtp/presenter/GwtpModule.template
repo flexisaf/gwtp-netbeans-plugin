@@ -1,0 +1,39 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+
+import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+
+/**
+ *
+ * @author ${user}
+ */
+public class ${targetName}Module extends AbstractPresenterModule {
+    @Override
+    protected void configure() {
+      <#if PresenterType == "Nested">
+        bindPresenter(${targetName}Presenter.class, 
+            ${targetName}Presenter.MyView.class, ${targetName}View.class, 
+            ${targetName}Presenter.MyProxy.class);
+      <#else> 
+       <#if IsSingleton>
+         bindSingletonPresenterWidget(${targetName}Presenter.class, 
+            ${targetName}Presenter.MyView.class, ${targetName}View.class);
+       <#else>
+         bindPresenterWidget(${targetName}Presenter.class, 
+            ${targetName}Presenter.MyView.class, ${targetName}View.class);
+       </#if>
+      </#if>
+    }
+}
+

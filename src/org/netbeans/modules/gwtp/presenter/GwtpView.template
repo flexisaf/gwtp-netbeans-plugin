@@ -1,0 +1,53 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+
+import javax.inject.Inject;
+
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtplatform.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+
+/**
+ *
+ * @author ${user}
+ */
+class ${targetName}View extends <#if PresenterType == "Popup">Popup</#if><#if IsAddUiHandlers >ViewWithUiHandlers<${targetName}UiHandlers><#else>ViewImpl</#if> implements ${targetName}Presenter.MyView {
+    interface Binder extends UiBinder<<#if PresenterType == "Popup">PopupPanel<#else>Widget</#if>, ${targetName}View> {
+    }
+
+    <#if PresenterType != "Popup">
+    @UiField
+    HTMLPanel main;
+    </#if>
+
+    @Inject
+    ${targetName}View(Binder uiBinder) {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    <#if PresenterType == "Nested">
+    @Override
+    public void setInSlot(Object slot, IsWidget content) {
+        if (slot == ${targetName}Presenter.SLOT_${targetName}) {
+            main.setWidget(content);
+        } else {
+            super.setInSlot(slot, content);
+        }
+    }
+    </#if>
+}

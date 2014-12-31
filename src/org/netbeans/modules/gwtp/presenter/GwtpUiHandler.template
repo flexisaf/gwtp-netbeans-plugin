@@ -1,0 +1,22 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+
+import com.gwtplatform.mvp.client.UiHandlers;
+
+/**
+ *
+ * @author ${user}
+ */
+interface ${targetName}UiHandlers extends UiHandlers {
+}

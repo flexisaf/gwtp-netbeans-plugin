@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Templates">
+        <folder name="GWTP">
+            <file name="GwtpPresenter.java" url="presenter/GwtpPresenter.template">
+                <attr name="instantiatingIterator" newvalue="org.netbeans.modules.gwtp.presenter.GwtpPresenterWizardIterator"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/netbeans/modules/gwtp/presenter/gwtpPresenter.html"/>
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.gwtp.Bundle"/>
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>               
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/netbeans/modules/gwtp/gwtp.png"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+
+            <file name="GwtpView.java" url="presenter/GwtpView.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="templateCategory" stringvalue="GWTP-Hidden"/>
+                <attr name="simple" boolvalue="false"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+            
+            <file name="GwtpModule.java" url="presenter/GwtpModule.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="templateCategory" stringvalue="GWTP-Hidden"/>
+                <attr name="simple" boolvalue="false"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+            
+            <file name="GwtpUiHandler.java" url="presenter/GwtpUiHandler.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="templateCategory" stringvalue="GWTP-Hidden"/>
+                <attr name="simple" boolvalue="false"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+        </folder>
+                
+        <folder name="xml">
+            <file name="GwtpView.ui.xml" url="presenter/GwtpView.ui.xml.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="template" boolvalue="true"/>                
+                <attr name="templateCategory" stringvalue="GWTP-Hidden"/>
+                <attr name="simple" boolvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>
