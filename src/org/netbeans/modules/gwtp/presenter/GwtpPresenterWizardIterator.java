@@ -144,7 +144,8 @@ public final class GwtpPresenterWizardIterator
         
         //Get the package:
         FileObject dir = Templates.getTargetFolder(wizard);
-        DataFolder df = DataFolder.findFolder(dir);
+        FileObject newDir = dir.createFolder(targetName.toLowerCase());
+        DataFolder df = DataFolder.findFolder(newDir);
         
         final Set<FileObject> files = new LinkedHashSet<FileObject>(3);
         

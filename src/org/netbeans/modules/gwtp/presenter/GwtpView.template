@@ -17,7 +17,11 @@ import javax.inject.Inject;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
+<#if PresenterType == "Nested">
 import com.google.gwt.user.client.ui.SimplePanel;
+<#elseif PresenterType == "PresenterWidget">
+import com.google.gwt.user.client.ui.HTMLPanel;
+</#if>
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -30,10 +34,13 @@ class ${targetName}View extends <#if PresenterType == "Popup">Popup</#if><#if Is
     interface Binder extends UiBinder<<#if PresenterType == "Popup">PopupPanel<#else>Widget</#if>, ${targetName}View> {
     }
 
-    <#if PresenterType != "Popup">
+  <#if PresenterType == "Nested">
+    @UiField
+    SimplePanel main;
+  <#elseif PresenterType == "PresenterWidget">
     @UiField
     HTMLPanel main;
-    </#if>
+  </#if>
 
     @Inject
     ${targetName}View(Binder uiBinder) {

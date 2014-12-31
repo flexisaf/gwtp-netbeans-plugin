@@ -5,8 +5,11 @@
   <#if PresenterType == "Popup">
     <g:PopupPanel autoHideOnHistoryEventsEnabled="false" autoHideEnabled="false">
     </g:PopupPanel>
-  <#else>
+  <#elseif PresenterType == "PresenterWidget">
     <g:HTMLPanel ui:field="main">
     </g:HTMLPanel>
+  <#else>
+    <g:SimplePanel ui:field="main">
+    </g:SimplePanel>
   </#if>
 </ui:UiBinder>
