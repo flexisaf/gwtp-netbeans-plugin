@@ -1,7 +1,9 @@
 <#assign licenseFirst = "/*">
 <#assign licensePrefix = " * ">
 <#assign licenseLast = " */">
+<#if licensePath?? && licensePath != "">
 <#include "${project.licensePath}">
+</#if>
 
 /**
  * Date Created: ${date}
@@ -20,7 +22,7 @@ import com.gwtplatform.dispatch.rpc.shared.Result;
  */
 public class ${targetName}Result implements Result {
 
-    public TalkToServerResult() {
+    public ${targetName}Result() {
     }
 
 }

@@ -20,8 +20,7 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
-import org.netbeans.api.templates.TemplateRegistration;
-import org.netbeans.modules.gwtp.presenter.GwtpPresenterWizardPanel1;
+import org.netbeans.modules.gwtp.util.ProjectInfo;
 import org.netbeans.spi.java.project.support.ui.templates.JavaTemplates;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
@@ -30,27 +29,25 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.util.NbBundle.Messages;
 
-// TODO define position attribute
-@TemplateRegistration(folder = "GWTP", displayName = "#GwtpActionWizardIterator_displayName", iconBase = "org/netbeans/modules/gwtp/gwtp.png", description = "gwtpAction.html")
-@Messages("GwtpActionWizardIterator_displayName=GWTP Action")
 public final class GwtpActionWizardIterator implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
 
     private int index;
     private WizardDescriptor wizard;
     private List<WizardDescriptor.Panel<WizardDescriptor>> panels;
-    private WizardDescriptor.Panel<WizardDescriptor> presenterPanel;
+    private WizardDescriptor.Panel<WizardDescriptor> actionPanel;
 
     private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {        Project project = Templates.getProject(wizard);
         Sources sources = ProjectUtils.getSources(project);
         SourceGroup[] groups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
-        presenterPanel = JavaTemplates.createPackageChooser(
-                project, groups, new GwtpPresenterWizardPanel1());
+        
+        actionPanel = JavaTemplates.createPackageChooser(
+                project, groups, new GwtpActionWizardPanel1(
+                ProjectInfo.getPackages(project)));
         
         if (panels == null) {
             panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
-            panels.add(presenterPanel);
+            panels.add(actionPanel);
             String[] steps = createSteps();
             for (int i = 0; i < panels.size(); i++) {
                 Component c = panels.get(i).getComponent();

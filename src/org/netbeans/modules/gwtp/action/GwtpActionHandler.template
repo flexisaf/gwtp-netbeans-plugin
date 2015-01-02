@@ -1,0 +1,40 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#if licensePath?? && licensePath != "">
+<#include "${project.licensePath}">
+</#if>
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+
+import com.gwtplatform.dispatch.rpc.server.ExecutionContext;
+import com.gwtplatform.dispatch.shared.ActionException;
+
+/**
+ *
+ * @author ${user}
+ */
+public class ${targetName}Handler extends AbstractAction<${targetName}Action, ${targetName}Result> {
+
+    public ${targetName}Handler() {
+        super(${targetName}Action.class);
+        
+    }
+
+    @Override
+    public ${targetName}Result execute(${targetName}Action a, ExecutionContext ec)
+            throws ActionException {
+
+        ${targetName}Result result = new ${targetName}Result();
+        
+
+        return result;        
+    }
+} 

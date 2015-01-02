@@ -5,10 +5,18 @@
 package org.netbeans.modules.gwtp.action;
 
 import javax.swing.event.ChangeListener;
+import org.netbeans.modules.gwtp.util.SrcPackage;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
+import java.util.List;
 
 public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor> {
+
+    private List<SrcPackage> packages;
+    
+    public GwtpActionWizardPanel1(List<SrcPackage> packages) {
+        this.packages = packages;        
+    }
 
     /**
      * The visual component that displays this panel. If you need to access the
@@ -23,7 +31,7 @@ public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDesc
     @Override
     public GwtpActionVisualPanel1 getComponent() {
         if (component == null) {
-            component = new GwtpActionVisualPanel1();
+            component = new GwtpActionVisualPanel1(packages);
         }
         return component;
     }
