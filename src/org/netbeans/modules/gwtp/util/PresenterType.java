@@ -2,7 +2,7 @@
  * 30/12/2014
  */
 
-package org.netbeans.modules.gwtp.commons;
+package org.netbeans.modules.gwtp.util;
 
 /**
  *

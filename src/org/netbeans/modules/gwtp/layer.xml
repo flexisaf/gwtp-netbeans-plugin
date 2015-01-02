@@ -32,6 +32,23 @@
                 <attr name="simple" boolvalue="false"/>
                 <attr name="template" boolvalue="true"/>
             </file>
+            
+            <file name="GwtpAction.java" url="action/GwtpAction.template">
+                <attr name="instantiatingIterator" newvalue="org.netbeans.modules.gwtp.action.GwtpActionWizardIterator"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/org/netbeans/modules/gwtp/action/gwtpAction.html"/>
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.modules.gwtp.Bundle"/>
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>               
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/netbeans/modules/gwtp/gwtp.png"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+
+            <file name="GwtpResult.java" url="action/GwtpResult.template">
+                <attr name="javax.script.ScriptEngine" stringvalue="freemarker"/>
+                <attr name="templateCategory" stringvalue="GWTP-Hidden"/>
+                <attr name="simple" boolvalue="false"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+            
         </folder>
                 
         <folder name="xml">

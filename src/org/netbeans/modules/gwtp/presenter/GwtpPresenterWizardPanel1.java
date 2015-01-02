@@ -6,9 +6,9 @@
 package org.netbeans.modules.gwtp.presenter;
 
 import javax.swing.event.ChangeListener;
-import org.netbeans.modules.gwtp.commons.PresenterType;
-import org.netbeans.modules.gwtp.commons.PropertyKeys;
-import org.netbeans.modules.gwtp.commons.RevealType;
+import org.netbeans.modules.gwtp.util.PresenterType;
+import org.netbeans.modules.gwtp.util.PropertyKeys;
+import org.netbeans.modules.gwtp.util.RevealType;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 

@@ -1,9 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.modules.gwtp.presenter;
+package org.netbeans.modules.gwtp.action;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -21,9 +20,8 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
-import org.netbeans.modules.gwtp.util.PresenterType;
-import org.netbeans.modules.gwtp.util.PropertyKeys;
-import org.netbeans.modules.gwtp.util.RevealType;
+import org.netbeans.api.templates.TemplateRegistration;
+import org.netbeans.modules.gwtp.presenter.GwtpPresenterWizardPanel1;
 import org.netbeans.spi.java.project.support.ui.templates.JavaTemplates;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
@@ -32,25 +30,19 @@ import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
+import org.openide.util.NbBundle.Messages;
 
 // TODO define position attribute
-//@TemplateRegistration(folder = "GWTP", displayName = "#GwtpPresenterWizardIterator_displayName", description = "gwtpPresenter.html")
-//@Messages("GwtpPresenterWizardIterator_displayName=Gwtp Presenter")
-/**
- * 
- * @author faiz
- */
-public final class GwtpPresenterWizardIterator 
-    implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
+@TemplateRegistration(folder = "GWTP", displayName = "#GwtpActionWizardIterator_displayName", iconBase = "org/netbeans/modules/gwtp/gwtp.png", description = "gwtpAction.html")
+@Messages("GwtpActionWizardIterator_displayName=GWTP Action")
+public final class GwtpActionWizardIterator implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
 
     private int index;
-
     private WizardDescriptor wizard;
     private List<WizardDescriptor.Panel<WizardDescriptor>> panels;
     private WizardDescriptor.Panel<WizardDescriptor> presenterPanel;
 
-    private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
-        Project project = Templates.getProject(wizard);
+    private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {        Project project = Templates.getProject(wizard);
         Sources sources = ProjectUtils.getSources(project);
         SourceGroup[] groups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
         presenterPanel = JavaTemplates.createPackageChooser(
@@ -86,105 +78,36 @@ public final class GwtpPresenterWizardIterator
         //Prepare the arguments for passing to the FreeMarker template:
         Map<String, Object> args = new HashMap<String, Object>();
         
-        //presenter type
-        PresenterType preType = (PresenterType) wizard.getProperty(
-                PropertyKeys.PresenterType.name());
-        args.put(PropertyKeys.PresenterType.name(), preType.name());
-        
-        //reveal type (for Nested Presenter types)
-        RevealType revealType = (RevealType) wizard.getProperty(
-                PropertyKeys.RevealType.name());
-        args.put(PropertyKeys.RevealType.name(), revealType.name());
-        
-        //slot name (for Slot reveal type)
-        String slotName = (String) wizard.getProperty(PropertyKeys.SlotName.name());
-        args.put(PropertyKeys.SlotName.name(), slotName);
-
-        //Is Singleton Presenter (for PresenterWidget and PopupPresenter)
-        boolean isSingleton = (Boolean) wizard.getProperty(PropertyKeys.IsSingleton.name());
-        args.put(PropertyKeys.IsSingleton.name(), isSingleton);
-        
-        //Is Override default Popup Panel (for Popup Presenter)
-        boolean isOverrideDefPopupPanel = (Boolean) wizard.getProperty(
-                PropertyKeys.IsOverrideDefPopPanel.name());
-        args.put(PropertyKeys.IsOverrideDefPopPanel.name(), isOverrideDefPopupPanel);
-        
-        //
-        args.put(PropertyKeys.IsaPlace.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsaPlace.name()));
-        args.put(PropertyKeys.NameToken.name(), 
-                (String) wizard.getProperty(PropertyKeys.NameToken.name()));        
-        args.put(PropertyKeys.IsCrawlable.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsCrawlable.name()));
-        args.put(PropertyKeys.IsCodeSplit.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsCodeSplit.name()));
-        args.put(PropertyKeys.IsAddUiHandlers.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsAddUiHandlers.name()));
-        args.put(PropertyKeys.IsAddOnBind.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsAddOnBind.name()));
-        args.put(PropertyKeys.IsAddOnHide.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsAddOnHide.name()));
-        args.put(PropertyKeys.IsAddOnReset.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsAddOnReset.name()));
-        args.put(PropertyKeys.IsAddOnUnbind.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsAddOnUnbind.name()));
-        args.put(PropertyKeys.IsUseManualReveal.name(), 
-                (Boolean) wizard.getProperty(PropertyKeys.IsUseManualReveal.name()));
-        
         //Get the presenter name
         String targetName = Templates.getTargetName(wizard);
-        String presenterName = targetName + "Presenter";       
-        String viewName = targetName + "View";    //the view name for the presenter
-        String viewUiXmlName = targetName + "View.ui"; //the UI binder for the view
-        String moduleName = targetName + "Module"; //the GIN module for this presenter
-        String uiHandlerName = targetName + "UiHandler"; //the GIN module for this presenter
+        targetName = targetName.replace("Action", "");
         
         //set the target name (Presenter)
         args.put("targetName", targetName);
         
         //Get the package:
         FileObject dir = Templates.getTargetFolder(wizard);
-        FileObject newDir = dir.createFolder(targetName.toLowerCase());
-        DataFolder df = DataFolder.findFolder(newDir);
+        //FileObject newDir = dir.createFolder(targetName.toLowerCase());
+        DataFolder df = DataFolder.findFolder(dir);
         
         final Set<FileObject> files = new LinkedHashSet<FileObject>(3);
         
-        //presenter template
+        String actionName = targetName + "Action";
+        String resultName = targetName + "Result";
+        
+        //action template
         files.add(processTemplate(
-                "Templates/GWTP/GwtpPresenter.java", 
+                "Templates/GWTP/GwtpAction.java", 
                 df,
-                presenterName,
+                actionName,
                 args));
         
-        //view template
+        //result template
         files.add(processTemplate(
-                "Templates/GWTP/GwtpView.java", 
+                "Templates/GWTP/GwtpResult.java", 
                 df,
-                viewName,
+                resultName,
                 args));
-        
-        //UI Binder template
-        files.add(processTemplate(
-                "Templates/xml/GwtpView.ui.xml", 
-                df,
-                viewUiXmlName,
-                args));
-        
-        //GIN Module
-        files.add(processTemplate(
-                "Templates/GWTP/GwtpModule.java", 
-                df,
-                moduleName,
-                args));
-        
-        //Add UiHandler class if UiHandlers is selected
-        if ((Boolean) wizard.getProperty(PropertyKeys.IsAddUiHandlers.name())) {
-            files.add(processTemplate(
-                "Templates/GWTP/GwtpUiHandler.java", 
-                df,
-                uiHandlerName,
-                args));
-        }
         
         return files;
     }
@@ -281,5 +204,4 @@ public final class GwtpPresenterWizardIterator
         }
         return res;
     }
-
 }

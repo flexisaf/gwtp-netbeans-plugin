@@ -1,0 +1,30 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+/**
+ * Date Created: ${date}
+ *
+ */
+
+<#if package?? && package != "">
+package ${package};
+</#if>
+
+import com.gwtplatform.dispatch.rpc.shared.ActionImpl;
+
+/**
+ *
+ * @author ${user}
+ */
+public class ${targetName}Action extends ActionImpl<${targetName}Result> {
+
+    public ${targetName}Action() {
+    }
+
+    @Override
+    public boolean isSecured() {
+        return false;
+    }
+}

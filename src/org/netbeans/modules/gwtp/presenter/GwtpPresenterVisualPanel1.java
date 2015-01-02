@@ -6,7 +6,7 @@
 package org.netbeans.modules.gwtp.presenter;
 
 import javax.swing.JPanel;
-import org.netbeans.modules.gwtp.commons.RevealType;
+import org.netbeans.modules.gwtp.util.RevealType;
 
 public final class GwtpPresenterVisualPanel1 extends JPanel {
 
