@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * 02/01/2015
  */
 package org.netbeans.modules.gwtp.util;
 
@@ -17,12 +16,38 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.File;
 import java.util.Enumeration;
+import javax.swing.JOptionPane;
+import org.openide.filesystems.FileUtil;
 
 /**
  *
  * @author faiz
  */
 public class ProjectInfo {
+    
+    public static FileObject getAbstractAction(Project project) {
+        FileObject srcDir = getSourcesDir(project);
+        
+        Enumeration<? extends FileObject> files = srcDir.getData(true);
+        
+        while (files.hasMoreElements()) {
+            FileObject f = files.nextElement();
+                            
+            if (f.getName().equals(Constants.AbstractAction.name())) {
+                return f;
+            }          
+        }
+        
+        return null;
+    }
+    
+    public static String getPackage(Project project, FileObject fo) {
+        FileObject srcDir = getSourcesDir(project);
+        String packageName = fo.getPath().replace(srcDir.getPath(), "")
+                    .replace(File.separator, ".").replaceFirst(".", "");
+        return packageName;
+    }
+    
     public static List<SrcPackage> getPackages(Project project) {
         List<SrcPackage> packages = new ArrayList<SrcPackage>();
         
@@ -40,7 +65,27 @@ public class ProjectInfo {
         
         return packages;
     }
+    
+    public static List<SrcClass> getHandlerModules(Project project) {
+        List<SrcClass> handlerModules = new ArrayList<SrcClass>();
         
+        FileObject srcDir = getSourcesDir(project);
+        
+        Enumeration<? extends FileObject> folEnum = srcDir.getData(true);
+        
+        while (folEnum.hasMoreElements()) {
+            FileObject fo = folEnum.nextElement();
+            
+            String qualifiedName = fo.getPath().replace(srcDir.getPath(), "")
+                    .replace(File.separator, ".").replaceFirst(".", "");
+            
+            if (GwtpUtil.containsInFile(Constants.HANDLER_MODULE, FileUtil.toFile(fo)))
+                handlerModules.add(new SrcClass(fo, qualifiedName));            
+        }
+        
+        return handlerModules;
+    }
+
     /**
      * @return first directory for source files
      */

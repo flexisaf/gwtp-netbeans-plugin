@@ -9,13 +9,18 @@ import org.netbeans.modules.gwtp.util.SrcPackage;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 import java.util.List;
+import org.netbeans.modules.gwtp.util.PropertyKeys;
+import org.netbeans.modules.gwtp.util.SrcClass;
 
 public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor> {
 
-    private List<SrcPackage> packages;
+    private final List<SrcPackage> packages;
+    private final List<SrcClass> handlerModule;
     
-    public GwtpActionWizardPanel1(List<SrcPackage> packages) {
-        this.packages = packages;        
+    public GwtpActionWizardPanel1(List<SrcPackage> packages, 
+            List<SrcClass> handlerModules) {
+        this.packages = packages;
+        this.handlerModule = handlerModules;
     }
 
     /**
@@ -31,7 +36,7 @@ public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDesc
     @Override
     public GwtpActionVisualPanel1 getComponent() {
         if (component == null) {
-            component = new GwtpActionVisualPanel1(packages);
+            component = new GwtpActionVisualPanel1(packages, handlerModule);
         }
         return component;
     }
@@ -69,6 +74,9 @@ public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDesc
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
-        // use wiz.putProperty to remember current panel state
+        wiz.putProperty(PropertyKeys.HandlerPackage.name(), 
+                component.getSelActionHandler());
+        wiz.putProperty(PropertyKeys.HandlerModule.name(), 
+                component.getSelHandlerModule());
     }
 }

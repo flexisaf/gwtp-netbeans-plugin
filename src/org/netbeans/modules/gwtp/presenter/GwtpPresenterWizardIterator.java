@@ -33,9 +33,6 @@ import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 
-// TODO define position attribute
-//@TemplateRegistration(folder = "GWTP", displayName = "#GwtpPresenterWizardIterator_displayName", description = "gwtpPresenter.html")
-//@Messages("GwtpPresenterWizardIterator_displayName=Gwtp Presenter")
 /**
  * 
  * @author faiz

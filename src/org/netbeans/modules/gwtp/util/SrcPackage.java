@@ -26,6 +26,10 @@ public class SrcPackage {
         return packageName;
     }
 
+    public String getImportStatement() {
+        return "import " + packageName + ";";
+    }
+    
     @Override
     public String toString() {
         return packageName ;

@@ -16,6 +16,8 @@ package ${package};
 
 import com.gwtplatform.dispatch.rpc.server.ExecutionContext;
 import com.gwtplatform.dispatch.shared.ActionException;
+import ${actionPackage}.${targetName}Action;
+import ${actionPackage}.${targetName}Result;
 
 /**
  *

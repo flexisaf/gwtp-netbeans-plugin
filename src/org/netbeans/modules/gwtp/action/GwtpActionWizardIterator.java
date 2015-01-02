@@ -20,7 +20,12 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
+import org.netbeans.modules.gwtp.util.Constants;
+import org.netbeans.modules.gwtp.util.GwtpUtil;
 import org.netbeans.modules.gwtp.util.ProjectInfo;
+import org.netbeans.modules.gwtp.util.PropertyKeys;
+import org.netbeans.modules.gwtp.util.SrcClass;
+import org.netbeans.modules.gwtp.util.SrcPackage;
 import org.netbeans.spi.java.project.support.ui.templates.JavaTemplates;
 import org.netbeans.spi.project.ui.templates.support.Templates;
 import org.openide.WizardDescriptor;
@@ -30,20 +35,24 @@ import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 
-public final class GwtpActionWizardIterator implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
+public final class GwtpActionWizardIterator 
+        implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
 
     private int index;
     private WizardDescriptor wizard;
     private List<WizardDescriptor.Panel<WizardDescriptor>> panels;
     private WizardDescriptor.Panel<WizardDescriptor> actionPanel;
 
-    private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {        Project project = Templates.getProject(wizard);
+    private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {        
+        Project project = Templates.getProject(wizard);
         Sources sources = ProjectUtils.getSources(project);
-        SourceGroup[] groups = sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+        SourceGroup[] groups = sources.getSourceGroups(
+                JavaProjectConstants.SOURCES_TYPE_JAVA);
         
         actionPanel = JavaTemplates.createPackageChooser(
                 project, groups, new GwtpActionWizardPanel1(
-                ProjectInfo.getPackages(project)));
+                ProjectInfo.getPackages(project), 
+                ProjectInfo.getHandlerModules(project)));
         
         if (panels == null) {
             panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
@@ -87,10 +96,15 @@ public final class GwtpActionWizardIterator implements WizardDescriptor.Instanti
         //FileObject newDir = dir.createFolder(targetName.toLowerCase());
         DataFolder df = DataFolder.findFolder(dir);
         
-        final Set<FileObject> files = new LinkedHashSet<FileObject>(3);
+        final Set<FileObject> files = new LinkedHashSet<FileObject>();
         
         String actionName = targetName + "Action";
         String resultName = targetName + "Result";
+        String handlerName = targetName + "Handler";
+        
+        //set action package      
+        Project project = Templates.getProject(wizard);
+        args.put("actionPackage", ProjectInfo.getPackage(project, dir));
         
         //action template
         files.add(processTemplate(
@@ -105,6 +119,31 @@ public final class GwtpActionWizardIterator implements WizardDescriptor.Instanti
                 df,
                 resultName,
                 args));
+        
+        //handler template
+        SrcPackage handlerPackage = (SrcPackage)wizard.getProperty(
+                PropertyKeys.HandlerPackage.name());
+                
+        files.add(processTemplate(
+                "Templates/GWTP/GwtpActionHandler.java", 
+                DataFolder.findFolder(handlerPackage.getFile()),
+                handlerName,
+                args));
+        
+        //add AbstractAction if not existing in handler package 
+        if (ProjectInfo.getAbstractAction(project) == null) {
+            files.add(processTemplate(
+                "Templates/GWTP/GwtpAbstractAction.java", 
+                DataFolder.findFolder(handlerPackage.getFile()),
+                Constants.AbstractAction.name(),
+                args));
+        }
+        
+        //bind action in handler module
+        SrcClass handlerModule = (SrcClass)wizard.getProperty(
+                PropertyKeys.HandlerModule.name());
+        GwtpUtil.bindHandler(handlerModule, 
+                ProjectInfo.getPackage(project, dir), targetName);
         
         return files;
     }
