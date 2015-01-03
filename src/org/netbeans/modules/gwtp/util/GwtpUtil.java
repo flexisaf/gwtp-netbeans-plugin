@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,46 +24,46 @@ public class GwtpUtil {
     public static void bindHandler(SrcClass handlerClass, 
             String actionPackage, String targetName) {  
                 
-        StringBuilder buf = new StringBuilder("bindHandler(").append(targetName)
-            .append("Action.class, ").append(targetName).append("Handler.class");
+        StringBuilder buf = new StringBuilder("\tbindHandler(").append(targetName)
+            .append("Action.class, ").append(targetName).append("Handler.class);");
         
         //bind
         appendLineToFile(buf.toString(), Constants.HANDLER_MODULE, 
                 FileUtil.toFile(handlerClass.getFile()));
         
         //import statement
-        appendLineToFile(actionPackage, Constants.GUICE_IMPORT_STMT, 
+        appendLineToFile(getImportStatement(actionPackage, targetName + "Action"), 
+                Constants.GUICE_IMPORT_STMT, 
                 FileUtil.toFile(handlerClass.getFile()));
     }
     
-    private static String getImportStatement(String qualifiedName) {
-        return "import " + qualifiedName + ";";
+    private static String getImportStatement(String packageName, String className) {
+        return "import " + packageName + "." + className + ";";
     }
     
     private static void appendLineToFile(String lineToAdd, String after, File file) {
         FileInputStream fis = null;
         try {
             // temp file
-            File outFile = new File("__tmpFile.tmp");
+            File tmpFile = new File("__tmpFile.tmp");
             fis = new FileInputStream(file);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             // output
-            FileOutputStream fos = new FileOutputStream(outFile);
-            PrintWriter out = new PrintWriter(fos);
+            PrintWriter out = new PrintWriter(new FileOutputStream(tmpFile));
             String curLine = "";
-            after = after.replace(" ", "");
+            after = after.replace(" ", "").toLowerCase();
             while ((curLine = in.readLine()) != null) {
-                if (curLine.replace(" ", "").toLowerCase()
-                        .contains(after)) {
+                out.println(curLine);
+                
+                if (curLine.replace(" ", "").toLowerCase().contains(after)) {
                     out.println(lineToAdd);
                 }
-                out.println(curLine);
             }
             out.flush();
             out.close();
             in.close();
-            outFile.renameTo(file);
-            outFile.delete();
+            tmpFile.renameTo(file);
+            tmpFile.delete();
         } catch (FileNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         } catch (IOException ex) {

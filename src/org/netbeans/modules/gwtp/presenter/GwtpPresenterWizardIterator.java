@@ -130,6 +130,8 @@ public final class GwtpPresenterWizardIterator
         
         //Get the presenter name
         String targetName = Templates.getTargetName(wizard);
+        targetName = targetName.replace("Presenter", "");
+        
         String presenterName = targetName + "Presenter";       
         String viewName = targetName + "View";    //the view name for the presenter
         String viewUiXmlName = targetName + "View.ui"; //the UI binder for the view

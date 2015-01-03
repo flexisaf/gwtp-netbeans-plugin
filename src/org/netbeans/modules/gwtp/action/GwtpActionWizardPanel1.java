@@ -16,11 +16,13 @@ public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDesc
 
     private final List<SrcPackage> packages;
     private final List<SrcClass> handlerModule;
+    private final SrcPackage selPackage;
     
     public GwtpActionWizardPanel1(List<SrcPackage> packages, 
-            List<SrcClass> handlerModules) {
+            List<SrcClass> handlerModules, SrcPackage abstractActionPackage) {
         this.packages = packages;
         this.handlerModule = handlerModules;
+        this.selPackage = abstractActionPackage;
     }
 
     /**
@@ -36,7 +38,8 @@ public class GwtpActionWizardPanel1 implements WizardDescriptor.Panel<WizardDesc
     @Override
     public GwtpActionVisualPanel1 getComponent() {
         if (component == null) {
-            component = new GwtpActionVisualPanel1(packages, handlerModule);
+            component = new GwtpActionVisualPanel1(packages, handlerModule, 
+                    selPackage);
         }
         return component;
     }

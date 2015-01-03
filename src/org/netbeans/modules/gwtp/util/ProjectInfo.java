@@ -25,6 +25,27 @@ import org.openide.filesystems.FileUtil;
  */
 public class ProjectInfo {
     
+    public static SrcPackage getAbstractActionPackage(Project project) {
+        FileObject srcDir = getSourcesDir(project);
+                
+        Enumeration<? extends FileObject> files = srcDir.getData(true);
+        
+        while (files.hasMoreElements()) {
+            FileObject f = files.nextElement();
+                            
+            if (f.getName().equals(Constants.AbstractAction.name())) {
+                
+                String packageName = f.getPath().replace(srcDir.getPath(), "")
+                    .replace(File.separator, ".").replaceFirst(".", "")
+                        .replace("." + Constants.AbstractAction.name() + ".java", "");
+                                
+                return new SrcPackage(f.getParent(), packageName);
+            }          
+        }
+        
+        return null;
+    }
+    
     public static FileObject getAbstractAction(Project project) {
         FileObject srcDir = getSourcesDir(project);
         

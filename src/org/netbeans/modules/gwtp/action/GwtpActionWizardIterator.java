@@ -52,7 +52,8 @@ public final class GwtpActionWizardIterator
         actionPanel = JavaTemplates.createPackageChooser(
                 project, groups, new GwtpActionWizardPanel1(
                 ProjectInfo.getPackages(project), 
-                ProjectInfo.getHandlerModules(project)));
+                ProjectInfo.getHandlerModules(project), 
+                ProjectInfo.getAbstractActionPackage(project)));
         
         if (panels == null) {
             panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();

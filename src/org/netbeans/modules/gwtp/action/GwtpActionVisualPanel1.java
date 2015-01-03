@@ -15,11 +15,14 @@ public final class GwtpActionVisualPanel1 extends JPanel {
      * Creates new form GwtpActionVisualPanel1
      */
     public GwtpActionVisualPanel1(List<SrcPackage> packages, 
-            List<SrcClass> handlerModules) {
+            List<SrcClass> handlerModules, SrcPackage selPackage) {
         initComponents();
         
         comboBoxHandlerPackage.setModel(new DefaultComboBoxModel<SrcPackage>(
                 packages.toArray(new SrcPackage[]{})));
+        
+        if (selPackage != null && packages.contains(selPackage))
+            comboBoxHandlerPackage.setSelectedItem(selPackage);
         
         comboBoxHandlerModule.setModel(new DefaultComboBoxModel<SrcClass>(
                 handlerModules.toArray(new SrcClass[]{})));
