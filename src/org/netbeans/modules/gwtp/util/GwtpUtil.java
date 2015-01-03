@@ -11,9 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,13 +28,25 @@ public class GwtpUtil {
             .append("Action.class, ").append(targetName).append("Handler.class);");
         
         //bind
-        appendLineToFile(buf.toString(), Constants.HANDLER_MODULE, 
+        appendLineToFile(buf.toString(), Constants.HANDLER_MODULE_CONFIG, 
                 FileUtil.toFile(handlerClass.getFile()));
         
         //import statement
         appendLineToFile(getImportStatement(actionPackage, targetName + "Action"), 
                 Constants.GUICE_IMPORT_STMT, 
                 FileUtil.toFile(handlerClass.getFile()));
+    }
+    
+    public static void bindPresenterModule(String presenter, 
+            String presenterPackage, FileObject appModule) {  
+        
+        //bind
+        appendLineToFile("\tinstall(new " + presenter + "Module());", 
+                Constants.APP_MODULE_CONFIG, FileUtil.toFile(appModule));
+        
+        //import statement
+        appendLineToFile(getImportStatement(presenterPackage, presenter + "Module"), 
+                Constants.GIN_IMPORT_STMT, FileUtil.toFile(appModule));
     }
     
     private static String getImportStatement(String packageName, String className) {

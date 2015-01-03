@@ -21,7 +21,9 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
+import org.netbeans.modules.gwtp.util.GwtpUtil;
 import org.netbeans.modules.gwtp.util.PresenterType;
+import org.netbeans.modules.gwtp.util.ProjectInfo;
 import org.netbeans.modules.gwtp.util.PropertyKeys;
 import org.netbeans.modules.gwtp.util.RevealType;
 import org.netbeans.spi.java.project.support.ui.templates.JavaTemplates;
@@ -154,6 +156,12 @@ public final class GwtpPresenterWizardIterator
                 df,
                 presenterName,
                 args));
+        
+        //bind presenter
+        Project project = Templates.getProject(wizard);        
+        GwtpUtil.bindPresenterModule(targetName, 
+                ProjectInfo.getPackage(project, newDir), 
+                ProjectInfo.getApplicationModule(project));
         
         //view template
         files.add(processTemplate(

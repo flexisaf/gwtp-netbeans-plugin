@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.File;
 import java.util.Enumeration;
-import javax.swing.JOptionPane;
 import org.openide.filesystems.FileUtil;
 
 /**
@@ -62,6 +61,22 @@ public class ProjectInfo {
         return null;
     }
     
+    public static FileObject getApplicationModule(Project project) {
+        FileObject srcDir = getSourcesDir(project);
+        
+        Enumeration<? extends FileObject> files = srcDir.getData(true);
+        
+        while (files.hasMoreElements()) {
+            FileObject f = files.nextElement();
+                 
+            if (GwtpUtil.containsInFile(Constants.APP_MODULE, FileUtil.toFile(f))) {
+                return f;
+            }
+        }
+        
+        return null;
+    }
+    
     public static String getPackage(Project project, FileObject fo) {
         FileObject srcDir = getSourcesDir(project);
         String packageName = fo.getPath().replace(srcDir.getPath(), "")
@@ -100,7 +115,7 @@ public class ProjectInfo {
             String qualifiedName = fo.getPath().replace(srcDir.getPath(), "")
                     .replace(File.separator, ".").replaceFirst(".", "");
             
-            if (GwtpUtil.containsInFile(Constants.HANDLER_MODULE, FileUtil.toFile(fo)))
+            if (GwtpUtil.containsInFile(Constants.HANDLER_MODULE_CONFIG, FileUtil.toFile(fo)))
                 handlerModules.add(new SrcClass(fo, qualifiedName));            
         }
         
