@@ -39,20 +39,20 @@ public class ${name} extends PresenterWidget<${name}.MyView> <#if IsAddUiHandler
 </#if>
 
 <#if PresenterType != "Popup">
-    interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+    public interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
     }
 <#else>
    <#if IsOverrideDefPopPanel >
-     interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+    public interface MyView extends View <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
         void center();
 
         void hide();
 
         void showRelativeTo(Widget target);
-     }
+    }
    <#else>
-     interface MyView extends PopupView <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
-     }
+    public interface MyView extends PopupView <#if IsAddUiHandlers >, HasUiHandlers<${targetName}UiHandlers></#if> {
+    }
    </#if>
 </#if>
 
@@ -65,9 +65,10 @@ public class ${name} extends PresenterWidget<${name}.MyView> <#if IsAddUiHandler
   </#if>
   <#if IsCodeSplit >
     @ProxyCodeSplit
-  </#if>
+  <#else>
     @ProxyStandard
-    interface MyProxy extends Proxy<${name}> {
+  </#if>
+    public interface MyProxy extends Proxy<${name}> {
     }
 
     @Inject

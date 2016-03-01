@@ -54,7 +54,7 @@ public final class GwtpPresenterVisualPanel1 extends JPanel {
         return overrideDefPopPanelCheck.isSelected();
     }
     
-    public boolean isaPlace() {
+     public boolean isaPlace() {
         return isaPlaceCb.isSelected();
     }
     
@@ -186,6 +186,7 @@ public final class GwtpPresenterVisualPanel1 extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.jLabel4.text")); // NOI18N
 
+        codeSplitCb.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(codeSplitCb, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.codeSplitCb.text")); // NOI18N
         codeSplitCb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,12 +325,14 @@ public final class GwtpPresenterVisualPanel1 extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel7, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.jLabel7.text")); // NOI18N
 
+        addOnBindCb.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(addOnBindCb, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.addOnBindCb.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.jLabel6.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(addOnHideCb, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.addOnHideCb.text")); // NOI18N
 
+        addOnResetCb.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(addOnResetCb, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.addOnResetCb.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(useManualRevealCb, org.openide.util.NbBundle.getMessage(GwtpPresenterVisualPanel1.class, "GwtpPresenterVisualPanel1.useManualRevealCb.text")); // NOI18N

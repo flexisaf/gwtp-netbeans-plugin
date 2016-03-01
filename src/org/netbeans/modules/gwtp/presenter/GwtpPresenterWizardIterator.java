@@ -79,11 +79,13 @@ public final class GwtpPresenterWizardIterator
         }
         return panels;
     }
-
+    
     @Override
     public Set<?> instantiate() throws IOException {
         //Prepare the arguments for passing to the FreeMarker template:
         Map<String, Object> args = new HashMap<String, Object>();
+        
+        String stringedNameToken = (String) wizard.getProperty(PropertyKeys.NameToken.name());
         
         //presenter type
         PresenterType preType = (PresenterType) wizard.getProperty(
@@ -111,8 +113,7 @@ public final class GwtpPresenterWizardIterator
         //
         args.put(PropertyKeys.IsaPlace.name(), 
                 (Boolean) wizard.getProperty(PropertyKeys.IsaPlace.name()));
-        args.put(PropertyKeys.NameToken.name(), 
-                (String) wizard.getProperty(PropertyKeys.NameToken.name()));        
+        args.put(PropertyKeys.NameToken.name(),stringedNameToken);        
         args.put(PropertyKeys.IsCrawlable.name(), 
                 (Boolean) wizard.getProperty(PropertyKeys.IsCrawlable.name()));
         args.put(PropertyKeys.IsCodeSplit.name(), 
@@ -193,6 +194,13 @@ public final class GwtpPresenterWizardIterator
                 args));
         }
         
+        // Declare name tokens
+        if ((Boolean) wizard.getProperty(PropertyKeys.IsaPlace.name())) {
+            FileObject fo = ProjectInfo.getNameTokenFile(project);
+            String sp = ProjectInfo.getPackage(project ,fo).replace(".java", "");
+            GwtpUtil.addNameTokens(stringedNameToken,sp,fo,
+                    ProjectInfo.getPresenter(project, presenterName));
+        }    
         return files;
     }
 
