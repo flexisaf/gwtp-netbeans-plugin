@@ -49,6 +49,30 @@ public class GwtpUtil {
                 Constants.GIN_IMPORT_STMT, FileUtil.toFile(appModule));
     }
     
+    /**
+     * 
+     * This method Declares a nametoken for the new presenter.
+     *
+     * @param  nameToken the name token for the presenter.
+     * @param  nameTokensPackage the place package.
+     * @param  nameTokenFile the @code NameTokens file.
+     * @param  presenter the new presenter.
+     *         
+     *
+     * @return
+     *
+     */
+    public static void addNameTokens(String nameToken,String nameTokensPackage, 
+            FileObject nameTokenFile, FileObject presenter) {  
+        
+       appendLineToFile("import " + nameTokensPackage + ";", 
+                Constants.VIEW_IMPORT_STMT, FileUtil.toFile(presenter));
+       
+        appendLineToFile("public static final String " + nameToken + " = \"" + 
+                nameToken + "\";", Constants.NAME_TOKEN_CONFIG, FileUtil.toFile(nameTokenFile));
+        
+    }
+
     private static String getImportStatement(String packageName, String className) {
         return "import " + packageName + "." + className + ";";
     }

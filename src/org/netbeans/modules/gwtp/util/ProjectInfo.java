@@ -76,7 +76,47 @@ public class ProjectInfo {
         
         return null;
     }
-    
+    public static FileObject getPresenter(Project project, String s) {
+        FileObject srcDir = getSourcesDir(project);
+        
+        Enumeration<? extends FileObject> files = srcDir.getData(true);
+        
+        while (files.hasMoreElements()) {
+            FileObject f = files.nextElement();
+                 
+            if (GwtpUtil.containsInFile(s, FileUtil.toFile(f))) {
+                return f;
+            }
+        }
+        
+        return null;
+    }
+    public static FileObject getNameTokenFile(Project project) {
+        FileObject srcDir = getSourcesDir(project);
+        
+        Enumeration<? extends FileObject> files = srcDir.getData(true);
+        
+        while (files.hasMoreElements()) {
+            FileObject f = files.nextElement();
+                 
+            if (GwtpUtil.containsInFile(Constants.NAME_TOKEN_CONFIG, FileUtil.toFile(f))) {
+                return f;
+            }
+        }
+        
+        return null;
+    }
+    /**
+     * 
+     * This method returns the package name of  fo in  project.
+     *
+     * @param  project the project the file is in.
+     * @param  fo the file whose package name is needed
+     *         
+     *
+     * @return  The fully-qualified package name.
+     *
+     */
     public static String getPackage(Project project, FileObject fo) {
         FileObject srcDir = getSourcesDir(project);
         String packageName = fo.getPath().replace(srcDir.getPath(), "")

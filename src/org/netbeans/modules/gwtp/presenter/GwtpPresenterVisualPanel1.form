@@ -294,6 +294,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="codeSplitCb">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/netbeans/modules/gwtp/presenter/Bundle.properties" key="GwtpPresenterVisualPanel1.codeSplitCb.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -419,6 +420,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="addOnBindCb">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/netbeans/modules/gwtp/presenter/Bundle.properties" key="GwtpPresenterVisualPanel1.addOnBindCb.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
@@ -440,6 +442,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="addOnResetCb">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/netbeans/modules/gwtp/presenter/Bundle.properties" key="GwtpPresenterVisualPanel1.addOnResetCb.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>

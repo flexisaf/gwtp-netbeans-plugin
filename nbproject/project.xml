@@ -92,5 +92,8 @@
             </module-dependencies>
             <public-packages/>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>nametoken</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

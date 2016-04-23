@@ -26,13 +26,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 </#if>
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
 /**
  *
  * @author ${user}
  */
-class ${targetName}View extends <#if PresenterType == "Popup">Popup</#if><#if IsAddUiHandlers >ViewWithUiHandlers<${targetName}UiHandlers><#else>ViewImpl</#if> implements ${targetName}Presenter.MyView {
+public class ${targetName}View extends <#if PresenterType == "Popup">Popup</#if><#if IsAddUiHandlers >ViewWithUiHandlers<${targetName}UiHandlers><#else>ViewImpl</#if> implements ${targetName}Presenter.MyView {
     interface Binder extends UiBinder<<#if PresenterType == "Popup">PopupPanel<#else>Widget</#if>, ${targetName}View> {
     }
 
